@@ -33,9 +33,39 @@ public class Ledger<E> implements List<E> {
         addAll(c);
     }
     
-    // Base Linked List Methods
+    /* Base Linked List Methods */
     
-    // Modification Operations
+    private static class Node<E> {
+        E item;
+        Node<E> next;
+        Node<E> prev;
+        
+        Node(Node<E> prev, E element, Node<E> next) {
+            this.item = element;
+            this.next = next;
+            this.prev = prev;
+        }
+    }
+    
+    Node<E> node(int index) {
+        if (index < (size >> 1)) {
+            Node<E> n = first;
+            
+            for (int i = 0; i < index; i++) {
+                n = n.next;
+            }
+            return n;
+        } else {
+            Node<E> n = last;
+            
+            for (int i = size - 1; i > index; i--) {
+                n = n.prev;
+            }
+            return n;
+        }
+    }
+    
+    /* Modification Operations */
     
     public boolean add(E e) {
         linkLast(e);
@@ -89,7 +119,7 @@ public class Ledger<E> implements List<E> {
         return false;
     }
     
-    // Bulk Operations
+    /* Bulk Operations */
     
     public boolean containsAll(Collection<?> c) {
         for (Object e : c) {
@@ -231,7 +261,7 @@ public class Ledger<E> implements List<E> {
         return (i == arr.length) ? arr : Arrays.copyOf(arr, i);
     }
     
-    // Linking Operations
+    /* Linking Operations */
     
     private void linkFirst(E e) {
         final Node<E> f = this.first;
@@ -377,25 +407,7 @@ public class Ledger<E> implements List<E> {
         linkLast(e);
     }
     
-    // Query Operations
-    
-    Node<E> node(int index) {
-        if (index < (size >> 1)) {
-            Node<E> n = first;
-            
-            for (int i = 0; i < index; i++) {
-                n = n.next;
-            }
-            return n;
-        } else {
-            Node<E> n = last;
-            
-            for (int i = size - 1; i > index; i--) {
-                n = n.prev;
-            }
-            return n;
-        }
-    }
+    /* Query Operations */
     
     public int size() {
         return size;
@@ -461,7 +473,7 @@ public class Ledger<E> implements List<E> {
         return -1;
     }
     
-    // Queue Operations
+    /* Queue Operations */
     
     public E peek() {
         final Node<E> f = first;
@@ -548,7 +560,7 @@ public class Ledger<E> implements List<E> {
         return false;
     }
     
-    // Iterators
+    /* Iterators */
     
     public Iterator<E> iterator() {
         return new Itr();
@@ -866,7 +878,7 @@ public class Ledger<E> implements List<E> {
         }
     }
     
-    // Comparison and Hashing
+    /* Comparison and Hashing */
     
     public boolean equals(Object o) {
         if (o == this) {
@@ -920,7 +932,7 @@ public class Ledger<E> implements List<E> {
         return clone;
     }
     
-    // Positional Access Checks
+    /* Positional Access Checks */
     
     protected void removeRange(int fromIndex, int toIndex) {
         ListIterator<E> itr = listIterator(fromIndex);
@@ -959,7 +971,7 @@ public class Ledger<E> implements List<E> {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
     
-    // String Conversion
+    /* String Conversion */
     
     public String toString() {
         Iterator<E> itr = iterator();
@@ -978,18 +990,6 @@ public class Ledger<E> implements List<E> {
                 return sb.append(']').toString();
             }
             sb.append(',').append(' ');
-        }
-    }
-    
-    private static class Node<E> {
-        E item;
-        Node<E> next;
-        Node<E> prev;
-        
-        Node(Node<E> prev, E element, Node<E> next) {
-            this.item = element;
-            this.next = next;
-            this.prev = prev;
         }
     }
 }
