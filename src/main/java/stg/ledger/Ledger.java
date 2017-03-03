@@ -1,4 +1,4 @@
-package stg;
+package stg.ledger;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -590,19 +590,6 @@ public class Ledger<E> implements List<E> {
                 new SubList<>(this, fromIndex, toIndex));
     }
     
-    private class DescendingIterator implements Iterator<E> {
-        private final ListItr itr = new ListItr(size());
-        public boolean hasNext() {
-            return itr.hasPrevious();
-        }
-        public E next() {
-            return itr.previous();
-        }
-        public void remove() {
-            itr.remove();
-        }
-    }
-    
     private class Itr implements Iterator<E> {
         int cursor = 0;
         int lastRet = -1;
@@ -650,6 +637,22 @@ public class Ledger<E> implements List<E> {
             if (modCount != expectedModCount) {
                 throw new ConcurrentModificationException();
             }
+        }
+    }
+    
+    private class DescendingIterator implements Iterator<E> {
+        private final ListItr itr = new ListItr(size());
+        
+        public boolean hasNext() {
+            return itr.hasPrevious();
+        }
+        
+        public E next() {
+            return itr.previous();
+        }
+        
+        public void remove() {
+            itr.remove();
         }
     }
     
